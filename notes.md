@@ -103,25 +103,7 @@ day4
 > 
 > await 只能放在 async 函数里面，就像：**只有这件事本身允许中途暂停，你才能停下来去干别的**
 - `Task`：一次性把好几个任务交给事件循环，让它帮忙调度
-import asyncio
-
-async def boil_water():
-    print("开始烧水")
-    # await：烧水，我要等待2秒，你先去干别的
-    await asyncio.sleep(2)
-    print("水烧开了！")
-
-async def make_noodle():
-    print("开始泡方便面")
-    await asyncio.sleep(2)
-    print("泡面好了！")
-
-async def main():
-    # 把两个任务交给事件循环
-    task1 = asyncio.create_task(boil_water())
-    task2 = asyncio.create_task(make_noodle())
-    # 等待两个全部做完
-    await task1
-    await task2
-
-asyncio.run(main())
+1. `async def` → 协程函数；调用它得到协程对象，**不会自动运行**
+2. `asyncio.run(xxx)`：启动事件循环，入口，只能在最外层写，执行任务。async定义的只能用asyncio.run调用
+3. `await xxx`：暂停当前协程，让出控制权；只能写在 async 函数内部
+4. `asyncio.create_task()`：创建后台任务，实现并发；gather 是批量并发
