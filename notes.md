@@ -84,4 +84,44 @@ print(p2.hobby) # ['读书', '跑步', '游戏']
 p2拷贝p1他们两不仅是不同的实例列表页不是同一个相互改变不会影响
 
 
+day4
+异步基础学习
+1. 开始烧水，**不用原地等着**，转身去泡方便面
+2. 泡面在泡的时候，去刷短视频
+3. 哪个事情先完成，就回去处理哪个
 
+> 
+> 重点：**不是同一时间同时干两件事（不是分身），而是等待的时候，不发呆，去做别的活。**
+> 异步本质：**等待 IO 的时候，把空闲时间利用起来**。
+> IO = 需要等待的事情：网络请求、读文件，就像烧水，需要等，你本人不用一直动手。
+> ## 对应代码里的角色
+
+- **事件循环 = 你这个人**，负责盯着所有任务，看哪个任务等待完了
+- **协程 = 烧水、泡面、刷视频，一件一件小事**
+- `async def`：标记这件事可以中途停下来，交给循环去干别的
+- `await`：就是【我要开始等待了！你（事件循环）先去处理别的任务，等好了叫我回来】
+> 
+> await 只能放在 async 函数里面，就像：**只有这件事本身允许中途暂停，你才能停下来去干别的**
+- `Task`：一次性把好几个任务交给事件循环，让它帮忙调度
+import asyncio
+
+async def boil_water():
+    print("开始烧水")
+    # await：烧水，我要等待2秒，你先去干别的
+    await asyncio.sleep(2)
+    print("水烧开了！")
+
+async def make_noodle():
+    print("开始泡方便面")
+    await asyncio.sleep(2)
+    print("泡面好了！")
+
+async def main():
+    # 把两个任务交给事件循环
+    task1 = asyncio.create_task(boil_water())
+    task2 = asyncio.create_task(make_noodle())
+    # 等待两个全部做完
+    await task1
+    await task2
+
+asyncio.run(main())
