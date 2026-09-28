@@ -168,57 +168,52 @@ average(None)               # 传了 None
 
 ## 【环境与工具指导】
 
-### 今天需要装的：pytest
+### 今天要建的：仓库自己的虚拟环境 + pytest
 
-你的虚拟环境里还没有 pytest，任务检验阶段要用。**保姆级步骤：**
+`AGENTS.md` 第 4 条的规矩：**依赖用 `uv` 管，不要 `pip install` 到全局**。
+所以在仓库里建一个属于这个项目自己的环境。**保姆级步骤：**
 
-**第 1 步：确认你在正确的位置**
-
-打开终端（Git Bash 或 PowerShell），进入你的练习目录：
-
-```bash
-cd "C:\Users\pyike\Desktop\python"
-```
-
-**第 2 步：确认虚拟环境存在且激活**
+**第 1 步：进仓库根目录**
 
 ```bash
-# 看有没有 .venv 目录
-ls -d .venv
+cd /d/code/ai-learning-journey
 ```
 
-有输出就是存在。然后激活它：
+**第 2 步：建虚拟环境**
 
 ```bash
-# Git Bash
-source .venv/Scripts/activate
-
-# PowerShell
-.\.venv\Scripts\Activate.ps1
+uv venv
 ```
 
-激活成功的标志：命令行前面多了一个 `(.venv)`。
+跑完会在仓库根出现一个 `.venv/` 目录。
+**它已经在 `.gitignore` 里了**（第 10 行），不会被提交，放心建。
 
-**第 3 步：安装 pytest**
+**第 3 步：装 pytest**
 
 ```bash
 uv pip install pytest
 ```
 
-> 用 `uv` 是因为你的 `AGENTS.md` 第 4 条定的规矩：依赖用 `uv` 管，不要直接 `pip install` 到全局。
-
 **第 4 步：验证**
 
 ```bash
-pytest --version
+.venv/Scripts/python.exe -m pytest --version
 ```
 
 看到版本号就成了。
 
-**⚠️ 注意**：这个 `.venv` 在桌面上（`C:\Users\pyike\Desktop\python\.venv`）。
-今天练习的代码放在仓库的 `day1/` 里，运行时**要么激活这个 venv 再进去跑，要么把 venv 也当环境参考**。
-如果你嫌绕，最省事的做法是**今天就在 `C:\Users\pyike\Desktop\python\` 下建一个 `day1_types/` 子目录放练习**，
-跑通了再复制进仓库 `day1/`。**选哪种都行，但要告诉我你选了哪种。**
+### 跑练习代码用这条命令
+
+```bash
+.venv/Scripts/python.exe day1/types_drill.py
+```
+
+**用绝对路径调 `.venv` 里的 python，不用手动激活**——免得你每次忘了 `activate` 又跑回全局 Python。
+
+> PowerShell 里把斜杠换成反斜杠：`.\.venv\Scripts\python.exe day1\types_drill.py`
+
+> 为什么不用桌面那个 venv：那是练手目录的环境，跟这个仓库没关系。
+> **一个项目一个环境**，出问题好排查，也不会互相污染。
 
 ---
 
